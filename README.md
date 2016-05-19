@@ -4,7 +4,7 @@
 
 PHP c'est bien mais avec une base de données c'est mieux. Nous allons mettre en situation
 une utilisation de PHP et MYSQL.
-Cette [ressources](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/presentation-des-bases-de-donnees-2) va vous éclairez sur les bases de données.
+Cette [ressource](https://openclassrooms.com/courses/concevez-votre-site-web-avec-php-et-mysql/presentation-des-bases-de-donnees-2) va vous éclairez sur les bases de données.
 Après avoir fait la partie "Écrire les données", vous pourrez commencer l'activité.
 
 # Objectif
