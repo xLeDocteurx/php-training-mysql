@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `hiking` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `difficulty` enum('très facile','facile','moyen','difficile','très difficile') NOT NULL,
-  `distance` float(3,2) NOT NULL COMMENT 'in km',
+  `distance` int(11) NOT NULL COMMENT 'in km',
   `duration` time NOT NULL,
   `height_difference` int(6) NOT NULL COMMENT 'in m',
   PRIMARY KEY (`id`)
