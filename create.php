@@ -31,7 +31,7 @@
 		</div>
 		<div>
 			<label for="duration">Durée</label>
-			<input type="duration" name="name" value="">
+			<input type="duration" name="duration" value="">
 		</div>
 		<div>
 			<label for="height_difference">Dénivelé</label>
