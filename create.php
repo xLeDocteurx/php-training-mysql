@@ -5,63 +5,87 @@
 
 	if (isset($_POST['name']) && isset($_POST['difficulty']) && isset($_POST['distance']) && isset($_POST['duration']) && isset($_POST['height_difference'])) {
 
-		// vérification des champs, try catch avec des throw new exeptions dans les else des vérifications.
 		try {
-			// if (strlen($_POST['name']) <= 1) { throw new Exception('Le champ "Nom" de la randonné n\'a pas été correctement remplis'); }
-
-			echo($_POST['name']);
-			echo($_POST['difficulty']);
-			echo($_POST['distance']);
-			echo($_POST['duration']);
-			echo($_POST['height_difference']);
-			echo('<br>Available : '.$_POST['available']);
-
-
-			db_create($_POST['name'],$_POST['difficulty'],$_POST['distance'],$_POST['duration'],$_POST['height_difference'],$_POST['available']);
+			$pdo = new PDO('mysql:host=den1.mysql2.gear.host;dbname=hikin','hikin','Cw7eCnF0-!6G');
+			$create = $pdo->prepare("INSERT INTO hikin.hiking (name, difficulty, distance, duration, height_difference, available) VALUES ('".$_POST['name']."','".$_POST['difficulty']."',".$_POST['distance'].",'".$_POST['duration']."',".$_POST['height_difference'].",'".$_POST['available']."');");
+			$create->execute();
+			print_r ($create);
 		} catch (Exception $e) {
-			print('! // ERREUR : '.$e);
+			print ('ERREUR : '. $e);
 		}
-		// finally {
-		// 	header('location: ./read.php');
-		// }
-	}
+		finally {
+			header('location: ./read.php');
+		}
+	} else { ?>
 
-?>
-	<h1>Ajouter</h1>
-	<form action="./create.php" method="post">
-		<div>
-			<label for="name">Nom</label>
-			<input type="text" name="name" value="">
+		<div class="ui middle aligned center aligned grid">
+			<div class="column">
+				<h2 class="ui teal image header">
+				<!-- <img src="./images/favicon.png" class="image"> -->
+				<div class="content">
+					Ajouter une rando
+				</div>
+				</h2>
+				<form action="./create.php" method="post" class="ui large form">
+				<div class="ui stacked segment">
+					<div class="field">
+					<div class="ui left icon input">
+						<!-- <i class="mail icon"></i> -->
+							<input type="text" name="name" value="" placeholder="Nom de la rando">
+					</div>
+					</div>
+					<div class="field">
+					<div class="ui left icon input">
+							<select name="difficulty">
+    							<option value="">--Difficulté--</option>
+								<option value="très facile">Très facile</option>
+								<option value="facile">Facile</option>
+								<option value="moyen">Moyen</option>
+								<option value="difficile">Difficile</option>
+								<option value="très difficile">Très difficile</option>
+							</select>
+					</div>
+					</div>
+					<div class="field">
+					<div class="ui left icon input">
+						<!-- <i class="mail icon"></i> -->
+							<input type="text" name="distance" value="" placeholder="Distance">
+					</div>
+					</div>
+					<div class="field">
+					<div class="ui left icon input">
+						<!-- <i class="mail icon"></i> -->
+							<input type="duration" name="duration" value="" placeholder="Durée">
+					</div>
+					</div>
+					<div class="field">
+					<div class="ui left icon input">
+						<!-- <i class="mail icon"></i> -->
+							<input type="text" name="height_difference" value="" placeholder="Dénivelé">
+					</div>
+					</div>
+					<div class="field">
+					<div class="ui left icon input">
+						<!-- <i class="mail icon"></i> -->
+							<label for="available">Praticable</label>
+							<input type="checkbox" name="available" value="true">
+					</div>
+					</div>
+					<button type="submit" class="ui fluid large teal submit button">Créer</button type="submit">
+				</div>
+	
+				<div class="ui error message">
+				</div>
+	
+				</form>
+	
+				<!-- <div class="ui message">
+					New to us? <a href="#">Sign Up</a>
+				</div> -->
+			</div>
 		</div>
 
-		<div>
-			<label for="difficulty">Difficulté</label>
-			<select name="difficulty">
-				<option value="très facile">Très facile</option>
-				<option value="facile">Facile</option>
-				<option value="moyen">Moyen</option>
-				<option value="difficile">Difficile</option>
-				<option value="très difficile">Très difficile</option>
-			</select>
-		</div>
-		
-		<div>
-			<label for="distance">Distance</label>
-			<input type="text" name="distance" value="">
-		</div>
-		<div>
-			<label for="duration">Durée</label>
-			<input type="duration" name="duration" value="">
-		</div>
-		<div>
-			<label for="height_difference">Dénivelé</label>
-			<input type="text" name="height_difference" value="">
-		</div>
-		<div>
-			<label for="available">Praticable</label>
-			<input type="checkbox" name="available" value="true">
-		</div>
-		<button type="submit" name="button">Envoyer</button>
-	</form>
+<?php	} ?>
+
 
 <?php include './parts/footer.php' ?>

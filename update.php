@@ -3,7 +3,7 @@
 	include './parts/header.php';
 	
 	$id = $_GET['id'];
-	$this_rando = db_readOne($id);
+	$this_rando = db_returnOne($id);
 
 	if (isset($_POST['name']) && isset($_POST['difficulty']) && isset($_POST['distance']) && isset($_POST['duration']) && isset($_POST['height_difference'])) {
 
@@ -11,62 +11,86 @@
 		try {
 			// if (strlen($_POST['name']) <= 1) { throw new Exception('Le champ "Nom" de la randonné n\'a pas été correctement remplis'); }
 
-			echo($_POST['name']);
-			echo($_POST['difficulty']);
-			echo($_POST['distance']);
-			echo($_POST['duration']);
-			echo($_POST['height_difference']);
-			echo('<br>Available : '.$_POST['available']);
-
-
-			db_update($_GET['id'], $_POST['name'],$_POST['difficulty'],$_POST['distance'],$_POST['duration'],$_POST['height_difference'],$_POST['available']);
+			$pdo = new PDO('mysql:host=den1.mysql2.gear.host;dbname=hikin','hikin','Cw7eCnF0-!6G');
+			// $update = $pdo->prepare("INSERT INTO hikin.hiking (name, difficulty, distance, duration, height_difference, available) VALUES ('".$_POST['name']."','".$_POST['difficulty']."',".$_POST['distance'].",'".$_POST['duration']."',".$_POST['height_difference'].",'".$_POST['available']."');");
+        	$update = $pdo->prepare("UPDATE hikin.hiking SET name ='".$_POST['name']."', difficulty ='".$_POST['difficulty']."', distance ='".$_POST['distance']."', duration ='".$_POST['duration']."', height_difference ='".$_POST['height_difference']."', available ='".$_POST['available']."' WHERE id = ".$id);
+			$update->execute();
+			print_r ($update);
 		} catch (Exception $e) {
 			print('! // ERREUR : '.$e);
 		}
-		// finally {
-		// 	header('location: ./read.php');
-		// }
-	}
+		finally {
+			header('location: ./read.php');
+		}
+	} else { ?>
 
-?>
-	<h1>Modifier</h1>
-
-
-	<form action="update.php?id=<?php echo($id); ?>" method="post">
-		<div>
-			<label for="name">Nom</label>
-			<input type="text" name="name" value="<?php echo($this_rando['name']) ?>">
+<div class="ui middle aligned center aligned grid">
+	<div class="column">
+		<h2 class="ui teal image header">
+		<!-- <img src="./images/favicon.png" class="image"> -->
+		<div class="content">
+			Modifier une rando
+		</div>
+		</h2>
+		<form action="update.php?id=<?php echo($id); ?>" method="post" class="ui large form">
+		<div class="ui stacked segment">
+			<div class="field">
+			<div class="ui left icon input">
+				<!-- <i class="mail icon"></i> -->
+					<input type="text" name="name" value="<?php echo($this_rando['name']) ?>" placeholder="Nom de la rando">
+			</div>
+			</div>
+			<div class="field">
+			<div class="ui left icon input">
+					<select name="difficulty">
+						<option value="très facile" <?php if ($this_rando['difficulty'] == 'très facile') { echo ('selected'); } ?>>Très facile</option>
+						<option value="facile" <?php if ($this_rando['difficulty'] == 'facile') { echo ('selected'); } ?>>Facile</option>
+						<option value="moyen" <?php if ($this_rando['difficulty'] == 'moyen') { echo ('selected'); } ?>>Moyen</option>
+						<option value="difficile" <?php if ($this_rando['difficulty'] == 'difficile') { echo ('selected'); } ?>>Difficile</option>
+						<option value="très difficile" <?php if ($this_rando['difficulty'] == 'très difficile') { echo ('selected'); } ?>>Très difficile</option>
+					</select>
+			</div>
+			</div>
+			<div class="field">
+			<div class="ui left icon input">
+				<!-- <i class="mail icon"></i> -->
+					<input type="text" name="distance" value="<?php echo($this_rando['distance']) ?>" placeholder="Distance">
+			</div>
+			</div>
+			<div class="field">
+			<div class="ui left icon input">
+				<!-- <i class="mail icon"></i> -->
+					<input type="duration" name="duration" value="<?php echo($this_rando['duration']) ?>" placeholder="Durée">
+			</div>
+			</div>
+			<div class="field">
+			<div class="ui left icon input">
+				<!-- <i class="mail icon"></i> -->
+					<input type="text" name="height_difference" value="<?php echo($this_rando['height_difference']) ?>" placeholder="Dénivelé">
+			</div>
+			</div>
+			<div class="field">
+			<div class="ui left icon input">
+				<!-- <i class="mail icon"></i> -->
+					<label for="available">Praticable</label>
+					<input type="checkbox" name="available" value="true" <?php if($this_rando['available']) { echo("checked"); } ?>>
+			</div>
+			</div>
+			<button type="submit" class="ui large teal submit button">Modifier</button type="submit">
+			<button type="button" class="ui large brown submit button" name="button" onclick="window.location.href = './delete.php?id=<?php echo($_GET['id']) ?>'">Supprimer</button>
 		</div>
 
-		<div>
-			<label for="difficulty">Difficulté</label>
-			<select name="difficulty">
-				<option value="très facile" <?php if ($this_rando['difficulty'] == 'très facile') { echo ('selected'); } ?>>Très facile</option>
-				<option value="facile" <?php if ($this_rando['difficulty'] == 'facile') { echo ('selected'); } ?>>Facile</option>
-				<option value="moyen" <?php if ($this_rando['difficulty'] == 'moyen') { echo ('selected'); } ?>>Moyen</option>
-				<option value="difficile" <?php if ($this_rando['difficulty'] == 'difficile') { echo ('selected'); } ?>>Difficile</option>
-				<option value="très difficile" <?php if ($this_rando['difficulty'] == 'très difficile') { echo ('selected'); } ?>>Très difficile</option>
-			</select>
+		<div class="ui error message">
 		</div>
-		
-		<div>
-			<label for="distance">Distance</label>
-			<input type="text" name="distance" value="<?php echo($this_rando['distance']) ?>">
-		</div>
-		<div>
-			<label for="duration">Durée</label>
-			<input type="duration" name="duration" value="<?php echo($this_rando['duration']) ?>">
-		</div>
-		<div>
-			<label for="height_difference">Dénivelé</label>
-			<input type="text" name="height_difference" value="<?php echo($this_rando['height_difference']) ?>">
-		</div>
-		<div>
-			<label for="available">Praticable</label>
-            <input type="checkbox" name="available" <?php if($this_rando['available']) { echo("checked"); } ?>>
-		</div>
-		<button type="submit" name="button">Modifier</button>
-		<button type="button" name="button" onclick="window.location.href = './delete.php?id=<?php echo($_GET['id']) ?>'">Supprimer</button>
-	</form>
+
+		</form>
+
+		<!-- <div class="ui message">
+			New to us? <a href="#">Sign Up</a>
+		</div> -->
+	</div>
+</div>
+
+	<?php } ?>
 
 <?php include './parts/footer.php' ?>

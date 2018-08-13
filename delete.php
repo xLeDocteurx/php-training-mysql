@@ -10,9 +10,7 @@
     } catch (Exception $e) {
         print('! // ERREUR : '.$e);
     }
-    // finally {
-    // 	header('location: ./read.php');
-    // }
-
-
+    finally {
+    	header('location: ./read.php');
+    }
 ?>

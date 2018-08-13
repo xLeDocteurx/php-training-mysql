@@ -1,5 +1,43 @@
-label, select, input{
+/* label, select, input{
   width: 150px;
   display: inline-block;
   margin: 5px 0;
+} */
+
+/* .pract {
+ background-color: green !important;
+}
+
+.non_pract {
+  background-color: red !important;
+} */
+body {
+  background-color: #DADADA;
+}
+body > .grid {
+  height: 100%;
+}
+.image {
+  margin-top: -100px;
+}
+.column {
+  max-width: 450px;
+}
+
+.header_avatar {
+  height: 15px;
+}
+
+.profile_avatar {
+  height: 200px;
+}
+
+
+
+.autoleft {
+  margin-left: auto;
+}
+
+.floatright {
+  float: right;
 }
