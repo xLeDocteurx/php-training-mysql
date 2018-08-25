@@ -6,10 +6,11 @@
 	if (isset($_POST['name']) && isset($_POST['difficulty']) && isset($_POST['distance']) && isset($_POST['duration']) && isset($_POST['height_difference'])) {
 
 		try {
-			$pdo = new PDO('mysql:host=den1.mysql2.gear.host;dbname=hikin','hikin','Cw7eCnF0-!6G');
-			$create = $pdo->prepare("INSERT INTO hikin.hiking (name, difficulty, distance, duration, height_difference, available) VALUES ('".$_POST['name']."','".$_POST['difficulty']."',".$_POST['distance'].",'".$_POST['duration']."',".$_POST['height_difference'].",'".$_POST['available']."');");
-			$create->execute();
-			print_r ($create);
+			// $pdo = new PDO('mysql:host=den1.mysql2.gear.host;dbname=hikin','hikin','Cw7eCnF0-!6G');
+			// $create = $pdo->prepare("INSERT INTO hikin.hiking (name, difficulty, distance, duration, height_difference, available) VALUES ('".$_POST['name']."','".$_POST['difficulty']."',".$_POST['distance'].",'".$_POST['duration']."',".$_POST['height_difference'].",'".$_POST['available']."');");
+			// $create->execute();
+			// print_r ($create);
+			db_create($_POST['name'],$_POST['difficulty'],$_POST['distance'],$_POST['duration'],$_POST['height_difference'],$_POST['available']);
 		} catch (Exception $e) {
 			print ('ERREUR : '. $e);
 		}

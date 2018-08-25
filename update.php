@@ -11,11 +11,11 @@
 		try {
 			// if (strlen($_POST['name']) <= 1) { throw new Exception('Le champ "Nom" de la randonné n\'a pas été correctement remplis'); }
 
-			$pdo = new PDO('mysql:host=den1.mysql2.gear.host;dbname=hikin','hikin','Cw7eCnF0-!6G');
-			// $update = $pdo->prepare("INSERT INTO hikin.hiking (name, difficulty, distance, duration, height_difference, available) VALUES ('".$_POST['name']."','".$_POST['difficulty']."',".$_POST['distance'].",'".$_POST['duration']."',".$_POST['height_difference'].",'".$_POST['available']."');");
-        	$update = $pdo->prepare("UPDATE hikin.hiking SET name ='".$_POST['name']."', difficulty ='".$_POST['difficulty']."', distance ='".$_POST['distance']."', duration ='".$_POST['duration']."', height_difference ='".$_POST['height_difference']."', available ='".$_POST['available']."' WHERE id = ".$id);
-			$update->execute();
-			print_r ($update);
+			// $pdo = new PDO('mysql:host=den1.mysql2.gear.host;dbname=hikin','hikin','Cw7eCnF0-!6G');
+        	// $update = $pdo->prepare("UPDATE hikin.hiking SET name ='".$_POST['name']."', difficulty ='".$_POST['difficulty']."', distance ='".$_POST['distance']."', duration ='".$_POST['duration']."', height_difference ='".$_POST['height_difference']."', available ='".$_POST['available']."' WHERE id = ".$id);
+			// $update->execute();
+			// print_r ($update);
+			db_update($id,$_POST['name'],$_POST['difficulty'],$_POST['distance'],$_POST['duration'],$_POST['height_difference'],$_POST['available']);
 		} catch (Exception $e) {
 			print('! // ERREUR : '.$e);
 		}

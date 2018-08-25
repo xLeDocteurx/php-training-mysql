@@ -1,16 +1,22 @@
 <?php
+require_once './vendor/j4mie/idiorm/idiorm.php';
+ORM::configure('mysql:host=den1.mysql2.gear.host;dbname=hikin');
+ORM::configure('username', 'hikin');
+ORM::configure('password', 'Cw7eCnF0-!6G');
 
-function db_connect () {
-    try {
-        $pdo = new PDO('mysql:host=den1.mysql2.gear.host;dbname=hikin','hikin','Cw7eCnF0-!6G');
-        return $pdo;
-        // $pdo = null;
-    } catch (Exception $e) {
-        print ('ERREUR : '. $e);
-        die();
-        $pdo = null;
-    }
-}
+ORM::configure('driver_options', array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+
+// function db_connect () {
+    // try {
+    //     $pdo = new PDO('mysql:host=den1.mysql2.gear.host;dbname=hikin','hikin','Cw7eCnF0-!6G');
+    //     return $pdo;
+    //     // $pdo = null;
+    // } catch (Exception $e) {
+    //     print ('ERREUR : '. $e);
+    //     die();
+    //     $pdo = null;
+    // }
+// }
 
 function db_close () {
     die();
@@ -18,16 +24,18 @@ function db_close () {
 }
 
 function db_returnOne($id) {
-    $pdo = db_connect();
-    $req = $pdo->query('SELECT * FROM hikin.hiking WHERE id = '.$id);
-    $result = $req->fetch();
+    // $pdo = db_connect();
+    // $req = $pdo->query('SELECT * FROM hikin.hiking WHERE id = '.$id);
+    // $result = $req->fetch();
+    $result = ORM::for_table('hiking')->where('id', $id)->find_one();
     return $result;
 }
 
 function db_readOne($id) {
-    $pdo = db_connect();
-    $req = $pdo->query('SELECT * FROM hikin.hiking WHERE id = '.$id);
-    $result = $req->fetch();
+    // $pdo = db_connect();
+    // $req = $pdo->query('SELECT * FROM hikin.hiking WHERE id = '.$id);
+    // $result = $req->fetch();
+    $result = ORM::for_table('hiking')->where('id', $id)->find_one();
     $this_rando = $result;
         ?>
         
@@ -85,7 +93,7 @@ function db_readOne($id) {
 }
 
 function db_read () {
-    $pdo = db_connect();
+    $randos = ORM::for_table('hiking')->find_many();
     echo('<h1>Liste des randonnées</h1>');
     try {
         echo('<table class="ui celled striped table">');
@@ -98,7 +106,7 @@ function db_read () {
                     echo('<th>'.'Différence'.'</th>');
                 echo('</tr>');
             echo('</thead>');
-        foreach($pdo->query('SELECT * FROM hikin.hiking') as $row) {
+        foreach($randos as $row) {
             echo('<tr>');
                 echo('<td><a href="./read.php?id='.$row['id'].'">'.$row['name'].'</a>');
                 if($row['available']) {
@@ -125,22 +133,37 @@ function db_read () {
 
 function db_create($name,$difficulty,$distance,$duration,$height_difference,$available) {
 
+	$rando=ORM::for_table('hiking')->create();
+    $rando->name= addslashes($name);
+    $rando->difficulty= addslashes($difficulty);
+    $rando->distance= addslashes($distance);
+    $rando->duration= addslashes($duration);
+    $rando->height_difference= addslashes($height_difference);
+    $rando->available= addslashes($available);
+    $rando->save();
 }
 
 function db_update($id,$name,$difficulty,$distance,$duration,$height_difference,$available) {
 
+    $update= ORM::for_table('hiking')->where('id',$id)->find_one();
+    $update->name= addslashes($name);
+    $update->difficulty= addslashes($difficulty);
+    $update->distance= addslashes($distance);
+    $update->duration= addslashes($duration);
+    $update->height_difference= addslashes($height_difference);
+    $update->available= addslashes($available);
+    $update->save();
+
 }
 
 function db_delete ($id) {
-    $pdo = db_connect();
-    try {
-        // $pdo->query('DELETE hiking WHERE id = '.$id);
-        $pdo->exec("DELETE FROM hikin.hiking WHERE id = $id");
-		// $delete->execute();
-        // print_r($delete);
-    } catch (Exception $e) {
-        print ('ERREUR : '. $e);
-    }
+    // $pdo = db_connect();
+    // try {
+    //     $pdo->exec("DELETE FROM hikin.hiking WHERE id = $id");
+    // } catch (Exception $e) {
+    //     print ('ERREUR : '. $e);
+    // }
+    $to_del = ORM::for_table('hiking')->where('id', $id)->find_one()->delete();
 }
 
 ?>

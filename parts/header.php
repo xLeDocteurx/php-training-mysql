@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-
-if ($_SESSION['user']) {
+if (isset($_SESSION['user'])) {
     $user_username = $_SESSION['user']['username'];
     $user_avatar = $_SESSION['user']['avatar'];
     $user_id = $_SESSION['user']['id'];
@@ -54,13 +53,13 @@ if ($_SESSION['user']) {
             <!-- <img class="logo" src="images/autop.jpg"> -->
             La Rando c'est rigolo !
             </a>
-            <?php if ($_SESSION['user']) { ?>
+            <?php if (isset($_SESSION['user'])) { ?>
                 <a href="./read.php" class="item">Liste des randos</a>
                 <a href="./create.php" class="item">Créer une rando</a>
             <?php } ?>
             <div class="autoleft ui simple dropdown item">
             <?php
-                if (!$_SESSION['user']) {
+                if (!isset($_SESSION['user'])) {
                     echo("Authentification");
                 } else {
                     echo('<a href="./user?id='.$user_id.'"><img class="header_avatar" src="'.$user_avatar.'">'.$user_username.'</a>');
@@ -68,7 +67,7 @@ if ($_SESSION['user']) {
             ?> 
             <i class="dropdown icon"></i>
             <div class="menu">
-            <?php if (!$_SESSION['user']) { ?>
+            <?php if (!isset($_SESSION['user'])) { ?>
                 <a href="./connect.php" class="item">Connection</a>
                 <a href="./register.php" class="item">Enregistrement</a>
             <?php } else { ?>

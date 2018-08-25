@@ -1,0 +1,16 @@
+{
+    "name": "ledocteur/semaine-17",
+    "require": {
+        "j4mie/idiorm": "^1.5",
+        "phpunit/phpunit": "^6.5"
+    },
+    "authors": [
+        {
+            "name": "xLeDocteurx",
+            "email": "lenoirc.fr@gmail.com"
+        }
+    ],
+    "scripts": {
+        "test": "./vendor/bin/phpunit ./tests/tests.php"
+    }
+}
